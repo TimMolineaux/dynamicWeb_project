@@ -1,0 +1,87 @@
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 20px;
+    margin-right: 10px;
+}
+
+.search {
+    --padding: 14px;
+    width: 500px;
+    display: flex;
+    align-items: center;
+    padding: var(--padding);
+    border-radius: 28px;
+    background: #f6f6f6;
+    margin-left: 20px;
+}
+
+.search-input {
+    font-size: 16px;
+    font-family: 'Lexend', sans-serif;
+    color: #333333;
+    margin-left: var(--padding);
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 600px;
+    transition: box-shadow 0.25s;
+}
+
+.search:focus-within {
+    box-shadow: 0 0 2px rgba(0,0,0,0.75);
+}
+
+.search-input::placeholder {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+.search-icon {
+    font-family: 'Material Symbols Outlined';
+    font-size: 24px;
+    color: #555;
+    margin-right: 10px;
+}
+
+/* Functionaliteiten Knoppen */
+.functionaliteiten {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Ruimte tussen de knoppen */
+}
+
+.knop {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Ruimte tussen icoon en tekst */
+    padding: 10px 15px; /* Ruimte rond het icoon en de tekst */
+    border-radius: 30px; /* Ronde knoppen */
+    transition: background 0.3s, box-shadow 0.3s; /* Vervagingseffect bij hover */
+    border-color: rgba(0, 0, #0084ff, 0);
+    margin-left: 30px;
+    cursor: pointer; /* Maakt het een klikbare knop */
+}
+
+/* Hover-effect voor de gehele knop (icoon + tekst) */
+.knop:hover {
+    background: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tekst in de knop */
+.text {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Verandering van kleur voor zowel tekst als icoon bij hover */
+.knop:hover .text,
+.knop:hover .material-symbols-outlined {
+    color: #333; /* Verander kleur van zowel tekst als icoon bij hover */
+}
+
+}
+
+
+

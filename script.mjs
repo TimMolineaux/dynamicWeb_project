@@ -1,1 +1,42 @@
-'use strict';
+fetchData();
+async function fetchData() {
+    try {
+        const response = await fetch('https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/bruxelles_lieux_culturels/records?limit=20');
+        
+        if (!response.ok) {
+            throw new Error("Netwerkfout bij het ophalen van de data");
+        }
+
+        const data = await response.json();
+        console.log(data);
+        displayItems(data);
+    } catch (error) {
+        console.error('Er is een fout opgetreden:', error);
+        alert('Er is een fout opgetreden bij het ophalen van de data');
+    }
+}
+
+function displayItems(data) {
+    const tbody = document.querySelector('#data-table tbody');
+    // Controleer of de results array bestaat en niet leeg is
+    if (!Array.isArray(data.results) || data.results.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">Geen resultaten gevonden.</td></tr>';
+        return;
+    }
+
+    // Loop door de items in de results array en voeg ze toe aan de tabel
+    data.results.forEach(item => {
+        const row = document.createElement('tr');
+
+        // Voeg de cellen toe met de gegevens van elk item
+        row.innerHTML = `
+            <td>${item.beschrijving || 'Geen titel'}</td>
+            <td>${item.adres || 'Geen adres'}</td>
+            <td>${item.code_postal || 'Onbekend'}</td>
+            <td><a href="https://www.google.com/maps/search/?api=1&query=${item.coordonnees_geographiques.lat},${item.coordonnees_geographiques.lon}" target="_blank" class="map-link">Bekijk op Google Maps</a></td>
+        `;
+        
+        // Voeg de nieuwe rij toe aan de tbody
+        tbody.appendChild(row);
+    });
+}

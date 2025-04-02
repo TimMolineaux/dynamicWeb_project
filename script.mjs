@@ -16,11 +16,13 @@ async function fetchData() {
     }
 }
 
-function displayItems(data) {
+async function displayItems(data) {
     const tbody = document.querySelector('#data-table tbody');
+    const savedPlacesList = document.querySelector('#saved-places');
+
     // Controleer of de results array bestaat en niet leeg is
     if (!Array.isArray(data.results) || data.results.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4">Geen resultaten gevonden.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5">Geen resultaten gevonden.</td></tr>';
         return;
     }
 
@@ -34,9 +36,23 @@ function displayItems(data) {
             <td>${item.adres || 'Geen adres'}</td>
             <td>${item.code_postal || 'Onbekend'}</td>
             <td><a href="https://www.google.com/maps/search/?api=1&query=${item.coordonnees_geographiques.lat},${item.coordonnees_geographiques.lon}" target="_blank" class="map-link">Bekijk op Google Maps</a></td>
+            <td><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
         `;
         
         // Voeg de nieuwe rij toe aan de tbody
         tbody.appendChild(row);
     });
+}
+
+async function savePlace(placeName) {
+    const savedPlacesList = document.querySelector('#saved-places');
+
+    // Maak een nieuw lijstitem voor de opgeslagen plaats
+    const listItem = document.createElement('li');
+    listItem.textContent = placeName;
+
+    // Voeg het lijstitem toe aan de lijst
+    savedPlacesList.appendChild(listItem);
+
+    console.log(`Plaats "${placeName}" is opgeslagen!`);
 }

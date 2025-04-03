@@ -35,8 +35,8 @@ async function displayItems(data) {
             <td>${item.beschrijving || 'Geen titel'}</td>
             <td>${item.adres || 'Geen adres'}</td>
             <td>${item.code_postal || 'Onbekend'}</td>
-            <td><a href="https://www.google.com/maps/search/?api=1&query=${item.coordonnees_geographiques.lat},${item.coordonnees_geographiques.lon}" target="_blank" class="map-link">Bekijk op Google Maps</a></td>
-            <td><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
+            <td id="link"><a href="https://www.google.com/maps/search/?api=1&query=${item.coordonnees_geographiques.lat},${item.coordonnees_geographiques.lon}" target="_blank" class="map-link">Bekijk op Google Maps</a></td>
+            <td id="link"><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
         `;
 
         // Voeg de nieuwe rij toe aan de tbody

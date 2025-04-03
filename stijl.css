@@ -81,5 +81,35 @@
     color: #333; /* Verander kleur van zowel tekst als icoon bij hover */
 }
 
+.tabel {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
 
+#data-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #data-table td, #data-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #data-table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #data-table tr:hover {background-color: #ddd;}
+  
+  #data-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: rgba(255, 0, 0, 0.814);
+    color: white;
+  }
 
+  #data-table #link {
+    text-align: center;
+  }

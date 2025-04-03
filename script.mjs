@@ -1,3 +1,4 @@
+//functie die verbind met de api en alle nodige data er uit haald
 fetchData();
 async function fetchData() {
     try {
@@ -8,7 +9,7 @@ async function fetchData() {
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log(data);//opgehaalde data in de console weergeven om te testen
         displayItems(data);
     } catch (error) {
         console.error('Er is een fout opgetreden:', error);
@@ -16,11 +17,12 @@ async function fetchData() {
     }
 }
 
+//functie die opgehaalde data in een tabel plaatst
 async function displayItems(data) {
     const tbody = document.querySelector('#data-table tbody');
     const savedPlacesList = document.querySelector('#saved-places');
 
-    // Controleer of de results array bestaat en niet leeg is
+    // Controleer of data deftig in de results array staat en geef een foutmelding weer indien niet
     if (!Array.isArray(data.results) || data.results.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5">Geen resultaten gevonden.</td></tr>';
         return;
@@ -39,11 +41,12 @@ async function displayItems(data) {
             <td id="link"><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
         `;
 
-        // Voeg de nieuwe rij toe aan de tbody
+        // Voeg de nieuwe rij toe aan de tabel
         tbody.appendChild(row);
     });
 }
 
+//functie die de gebruiker toelaat plaatsnamen op te slaan
 function savePlace(placeName) {
     const savedPlacesList = document.querySelector('#saved-places');
 
@@ -57,56 +60,57 @@ function savePlace(placeName) {
     deleteButton.onclick = function () {
         // Verwijder het lijstitem wanneer op de knop wordt geklikt
         savedPlacesList.removeChild(listItem);
+        //bericht in console die laat weten dat plaats is verwijderd
         console.log(`Plaats "${placeName}" is verwijderd!`);
     };
 
     // Voeg de verwijderknop toe aan het lijstitem
     listItem.appendChild(deleteButton);
 
-    // Voeg het lijstitem toe aan de lijst
+    // Voeg het item toe aan de lijst
     savedPlacesList.appendChild(listItem);
 
+    //bericht in de console om te laten weten dat de plaats correct is opgeslagen
     console.log(`Plaats "${placeName}" is opgeslagen!`);
 }
 
-// Voeg de zoekfunctie toe aan je JavaScript-bestand
+//functie die de gebruiker laat zoeken naar een specifieke plaatsnaam
 document.querySelector('#search-input').addEventListener('input', filterPlaces);
 
 function filterPlaces() {
-    const searchTerm = document.querySelector('#search-input').value.toLowerCase(); // Zoekterm omgezet naar kleine letters
+    const searchTerm = document.querySelector('#search-input').value.toLowerCase();
     const tbody = document.querySelector('#data-table tbody');
 
-    // Alle rijen in de tabel ophalen
     const rows = Array.from(tbody.getElementsByTagName('tr'));
 
     // Filter de rijen op basis van de zoekterm
     rows.forEach(row => {
-        const placeName = row.cells[0].textContent.toLowerCase(); // De naam van de plaats (eerste kolom)
+        const placeName = row.cells[0].textContent.toLowerCase();
 
         // Als de plaatsnaam de zoekterm bevat, toon dan de rij, anders verberg de rij
         if (placeName.includes(searchTerm)) {
-            row.style.display = ''; // Toon de rij
+            row.style.display = '';
         } else {
-            row.style.display = 'none'; // Verberg de rij
+            row.style.display = 'none'; 
         }
     });
 }
 
+//functie die de gebruiker laat wisselen tussen licht/donker thema
 document.getElementById('thema').addEventListener('click', toggleDarkMode);
 
 function toggleDarkMode() {
-    document.body.classList.toggle('dark-theme'); // Wissel tussen donkere en lichte modus
+    document.body.classList.toggle('dark-theme');
 }
 
-//sorteren
-let originalRows = []; // Variabele om de originele rijen op te slaan
+//functie die de gebruiker de tabel laat sorteren op naam, adres en postcode
+let originalRows = []; // Variabele om de originele rijen op te slaan indien we de standaarvolgorde willen herstellen
 
 fetchData();
 
 async function displayItems(data) {
     const tbody = document.querySelector('#data-table tbody');
 
-    // Controleer of de results array bestaat en niet leeg is
     if (!Array.isArray(data.results) || data.results.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5">Geen resultaten gevonden.</td></tr>';
         return;
@@ -126,11 +130,10 @@ async function displayItems(data) {
     });
 
     // Voeg de originele rijen toe aan de tabel
-    tbody.innerHTML = ''; // Leeg de tabel voordat we de rijen toevoegen
+    tbody.innerHTML = '';
     originalRows.forEach(row => tbody.appendChild(row));
 }
 
-// Voeg de event listener voor het sorteren toe
 document.querySelector('#sort-options').addEventListener('change', function () {
     const sortBy = this.value;
     if (sortBy === 'standaard') {
@@ -152,9 +155,9 @@ function sortTable(sortBy) {
         let cellA = a.cells[getColumnIndex(sortBy)].textContent.trim();
         let cellB = b.cells[getColumnIndex(sortBy)].textContent.trim();
 
-        // Vergelijk de cellen, afhankelijk van de soort kolom
+        // Vergelijk de cellen
         if (sortBy === 'postcode') {
-            // Als we sorteren op postcode, convert naar nummers voor correcte sortering
+            // bij postcodes omzetten naar getallen
             cellA = parseInt(cellA, 10);
             cellB = parseInt(cellB, 10);
         }
@@ -185,6 +188,6 @@ function getColumnIndex(sortBy) {
 // Functie om terug te gaan naar de standaard volgorde
 function resetToDefault() {
     const tbody = document.querySelector('#data-table tbody');
-    tbody.innerHTML = ''; // Leeg de tabel
-    originalRows.forEach(row => tbody.appendChild(row)); // Voeg de originele rijen toe
+    tbody.innerHTML = '';
+    originalRows.forEach(row => tbody.appendChild(row));
 }

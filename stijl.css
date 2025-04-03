@@ -81,6 +81,12 @@
     color: #333; /* Verander kleur van zowel tekst als icoon bij hover */
 }
 
+.kaart {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
 .tabel {
     display: flex;
     justify-content: space-around;

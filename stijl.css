@@ -169,3 +169,27 @@
     padding: 20px;
     margin-right: 10px;
 }
+
+
+
+
+.Brussels {
+    font-family: 'Quicksand', sans-serif;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.explorer {
+    font-family: 'Poppins', sans-serif; /* Kies het gewenste font voor 'Explorer' */
+    font-weight: 700;
+    color: #0077B5; /* Kies de gewenste kleur */
+    font-size: 23px; /* Pas de grootte aan zoals gewenst */
+}
+
+
+
+
+
+
+

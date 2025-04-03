@@ -86,30 +86,215 @@ function filterPlaces() {
     
     
     
-}function sortTable(columnIndex) {
-    const table = document.getElementById("data-table");
-    const tbody = table.querySelector("tbody");
-    const rows = Array.from(tbody.querySelectorAll("tr"));
-    const isNumeric = columnIndex === 2; // Controleer of de kolom numeriek is (postcode)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Filter de rijen op basis van de zoekterm
+    rows.forEach(row => {
+        const placeName = row.cells[0].textContent.toLowerCase(); // De naam van de plaats (eerste kolom)
 
-    // Bepaal de sorteervolgorde (asc/desc)
-    let ascending = table.dataset.sortOrder !== "asc";
-    table.dataset.sortOrder = ascending ? "asc" : "desc";
+        // Als de plaatsnaam de zoekterm bevat, toon dan de rij, anders verberg de rij
+        if (placeName.includes(searchTerm)) {
+            row.style.display = ''; // Toon de rij
+        } else {
+            row.style.display = 'none'; // Verberg de rij
+        }
+    });
+}
 
+document.getElementById('thema').addEventListener('click', toggleDarkMode);
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-theme'); // Wissel tussen donkere en lichte modus
+}
+
+//sorteren
+let originalRows = []; // Variabele om de originele rijen op te slaan
+
+fetchData();
+
+async function displayItems(data) {
+    const tbody = document.querySelector('#data-table tbody');
+
+    // Controleer of de results array bestaat en niet leeg is
+    if (!Array.isArray(data.results) || data.results.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">Geen resultaten gevonden.</td></tr>';
+        return;
+    }
+
+    // Bewaar de originele rijen voor het geval we terug willen naar de standaard volgorde
+    originalRows = data.results.map(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.beschrijving || 'Geen titel'}</td>
+            <td>${item.adres || 'Geen adres'}</td>
+            <td>${item.code_postal || 'Onbekend'}</td>
+            <td id="link"><a href="https://www.google.com/maps/search/?api=1&query=${item.coordonnees_geographiques.lat},${item.coordonnees_geographiques.lon}" target="_blank" class="map-link">Bekijk op Google Maps</a></td>
+            <td id="link"><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
+        `;
+        return row;
+    });
+
+    // Voeg de originele rijen toe aan de tabel
+    tbody.innerHTML = ''; // Leeg de tabel voordat we de rijen toevoegen
+    originalRows.forEach(row => tbody.appendChild(row));
+}
+
+// Voeg de event listener voor het sorteren toe
+document.querySelector('#sort-options').addEventListener('change', function () {
+    const sortBy = this.value;
+    if (sortBy === 'standaard') {
+        // Herstel de standaard volgorde
+        resetToDefault();
+    } else {
+        // Sorteer de tabel op basis van de geselecteerde optie
+        sortTable(sortBy);
+    }
+});
+
+// Functie om de tabel te sorteren
+function sortTable(sortBy) {
+    const tbody = document.querySelector('#data-table tbody');
+    const rows = Array.from(tbody.rows);
+
+    // Sorteer de rijen op basis van de geselecteerde kolom
     rows.sort((a, b) => {
-        let cellA = a.cells[columnIndex].textContent.trim();
-        let cellB = b.cells[columnIndex].textContent.trim();
+        let cellA = a.cells[getColumnIndex(sortBy)].textContent.trim();
+        let cellB = b.cells[getColumnIndex(sortBy)].textContent.trim();
 
-        // Converteer naar getallen als het een numerieke kolom is
-        if (isNumeric) {
+        // Vergelijk de cellen, afhankelijk van de soort kolom
+        if (sortBy === 'postcode') {
+            // Als we sorteren op postcode, convert naar nummers voor correcte sortering
             cellA = parseInt(cellA, 10);
             cellB = parseInt(cellB, 10);
         }
 
-        return ascending ? (cellA > cellB ? 1 : -1) : (cellA < cellB ? 1 : -1);
+        if (cellA < cellB) return -1;
+        if (cellA > cellB) return 1;
+        return 0;
     });
 
-    // Voeg de gesorteerde rijen opnieuw toe aan de tabel
-    tbody.innerHTML = "";
+    // Voeg de gesorteerde rijen weer toe aan de tabel
     rows.forEach(row => tbody.appendChild(row));
+}
+
+// Functie om de kolomindex te krijgen op basis van de gekozen sorteeroptie
+function getColumnIndex(sortBy) {
+    switch (sortBy) {
+        case 'naam':
+            return 0; // De naam bevindt zich in de eerste kolom
+        case 'adres':
+            return 1; // Adres is de tweede kolom
+        case 'postcode':
+            return 2; // Postcode is de derde kolom
+        default:
+            return 0; // Default naar naam als er iets misgaat
+    }
+}
+
+// Functie om terug te gaan naar de standaard volgorde
+function resetToDefault() {
+    const tbody = document.querySelector('#data-table tbody');
+    tbody.innerHTML = ''; // Leeg de tabel
+    originalRows.forEach(row => tbody.appendChild(row)); // Voeg de originele rijen toe
 }

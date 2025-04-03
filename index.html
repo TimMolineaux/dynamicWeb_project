@@ -40,43 +40,46 @@
             <div class="knop" id="thema">
                 <span class="material-symbols-outlined">dark_mode</span>
                 <span class="text"></span>
-            </div>
-            
+            </div>  
         </div>
     </div>
 
-    <div class="sort-container">
-        <label for="sort-options">Sorteren op:</label>
-        <select id="sort-options">
-            <option value="standaard">Standaard</option>
-            <option value="naam">Naam</option>
-            <option value="adres">Adres</option>
-            <option value="postcode">Postcode</option>
-        </select>
-    </div>
-       
+    <div class="item">
 
-    <div class="tabel">
-        <table id="data-table">
-            <thead>
-                <tr>
-                    <th>Naam</th>
-                    <th>Adres</th>
-                    <th>Postcode</th>
-                    <th>Google maps</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Hier worden rijen met data van de API toegevoegd -->
-            </tbody>
-        </table>
-    </div>
+        <div class="sort-container">
+            <label for="sort-options">Sorteren op:</label>
+            <select id="sort-options">
+                <option value="standaard">Standaard</option>
+                <option value="naam">Naam</option>
+                <option value="adres">Adres</option>
+                <option value="postcode">Postcode</option>
+            </select>
+        </div>
+           
+    
+        <div class="tabel">
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>Adres</th>
+                        <th>Postcode</th>
+                        <th>Google maps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Hier worden rijen met data van de API toegevoegd -->
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="favorites">
+            <h2>Opgeslagen plaatsen</h2>
+            <ul id="saved-places">
+                <!-- De opgeslagen plaatsen worden hier weergegeven -->
+            </ul>
+        </div>
 
-    <div class="favorites">
-        <h2>Opgeslagen plaatsen</h2>
-        <ul id="saved-places">
-            <!-- De opgeslagen plaatsen worden hier weergegeven -->
-        </ul>
     </div>
 
     <div class="kaart">

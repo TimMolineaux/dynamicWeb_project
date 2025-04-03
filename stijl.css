@@ -197,6 +197,7 @@ body {
     color: #333;
     flex-direction: column;
     align-items: center;
+    width: 65%;
 }
 
 .favorites h2 {
@@ -212,6 +213,14 @@ ul {
 
 ul li {
     margin-bottom: 10px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
 }
 
 /* Donkere modus stijlen */

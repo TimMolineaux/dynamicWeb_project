@@ -291,6 +291,11 @@ body.dark-theme .knop:hover {
     background-color: #777;
 }
 
+body.dark-theme .knop:hover .text,
+body.dark-theme .knop:hover .material-symbols-outlined {
+    color: #fff;
+}
+
 body.dark-theme .map-link {
     color: #fff;
 }

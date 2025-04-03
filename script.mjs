@@ -90,4 +90,33 @@ function filterPlaces() {
             row.style.display = 'none'; // Verberg de rij
         }
     });
+
+
 }
+
+// Functie om de tabel te sorteren
+function sortTable(columnIndex) {
+    var table = document.getElementById("data-table");
+    var rows = Array.from(table.rows).slice(1); // Haal alle rijen behalve de header
+
+    // Sorteer de rijen op basis van de opgegeven kolomindex
+    rows.sort(function(a, b) {
+        var cellA = a.cells[columnIndex].textContent.trim();
+        var cellB = b.cells[columnIndex].textContent.trim();
+
+        // Vergelijk de cellen en return de sorteerwaarde
+        if (cellA < cellB) {
+            return -1;
+        } else if (cellA > cellB) {
+            return 1;
+        }
+        return 0;
+    });
+
+    // Voeg de gesorteerde rijen terug in de tabel
+    rows.forEach(function(row) {
+        table.appendChild(row);
+    });
+}
+
+

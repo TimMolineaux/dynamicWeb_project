@@ -15,7 +15,7 @@
 <body>
     <div class="header-container">
         <div class="logo">
-            <p><span class="explorer">Explorer</span><span class="Brussels">.brussels</span></p>
+            <p><span class="explorer">Explore</span><span class="Brussels">.brussels</span></p>
 
 
         </div>
@@ -48,21 +48,40 @@
     </div>
        
 
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabel Sorteren</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Verwijs naar een extern CSS bestand -->
+</head>
+<body>
+
     <div class="tabel">
         <table id="data-table">
             <thead>
                 <tr>
-                    <th>Naam</th>
-                    <th>Adres</th>
-                    <th>Postcode</th>
-                    <th>Google maps</th>
+                    <th onclick="sortTable(0)">Naam</th>
+                    <th onclick="sortTable(1)">Adres</th>
+                    <th onclick="sortTable(2)">Postcode</th>
+                    <th onclick="sortTable(3)">Google Maps</th>
+                    <th>Acties</th> <!-- Kolom voor actieknoppen -->
                 </tr>
+            </thead>
+            <tbody>
             </thead>
             <tbody>
                 <!-- Hier worden rijen met data van de API toegevoegd -->
             </tbody>
         </table>
     </div>
+
+
+<script src="sortTable.js"></script> <!-- Verwijs naar het externe JavaScript bestand -->
+</body>
+</html>
+
 
     <ul id="saved-places">
         <!-- De opgeslagen plaatsen worden hier weergegeven -->

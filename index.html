@@ -15,9 +15,7 @@
 <body>
     <div class="header-container">
         <div class="logo">
-            <p><span class="explorer">Explore</span><span class="Brussels">.brussels</span></p>
-
-
+            <p><span class="explorer">Explorer</span><span class="Brussels">.brussels</span></p>
         </div>
         <div class="search">
             <span class="search-icon material-symbol-outlined">search</span>
@@ -39,37 +37,34 @@
                 <span class="text">FR</span>
             </div>
     
-            <div class="knop">
+            <div class="knop" id="thema">
                 <span class="material-symbols-outlined">dark_mode</span>
                 <span class="text"></span>
             </div>
             
         </div>
     </div>
-       
 
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabel Sorteren</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Verwijs naar een extern CSS bestand -->
-</head>
-<body>
+    <div class="sort-container">
+        <label for="sort-options">Sorteren op:</label>
+        <select id="sort-options">
+            <option value="standaard">Standaard</option>
+            <option value="naam">Naam</option>
+            <option value="adres">Adres</option>
+            <option value="postcode">Postcode</option>
+        </select>
+    </div>
+       
 
     <div class="tabel">
         <table id="data-table">
             <thead>
                 <tr>
-                    <th onclick="sortTable(0)">Naam</th>
-                    <th onclick="sortTable(1)">Adres</th>
-                    <th onclick="sortTable(2)">Postcode</th>
-                    <th onclick="sortTable(3)">Google Maps</th>
-                    <th>Acties</th> <!-- Kolom voor actieknoppen -->
+                    <th>Naam</th>
+                    <th>Adres</th>
+                    <th>Postcode</th>
+                    <th>Google maps</th>
                 </tr>
-            </thead>
-            <tbody>
             </thead>
             <tbody>
                 <!-- Hier worden rijen met data van de API toegevoegd -->
@@ -77,15 +72,12 @@
         </table>
     </div>
 
-
-
-</body>
-</html>
-
-
-    <ul id="saved-places">
-        <!-- De opgeslagen plaatsen worden hier weergegeven -->
-    </ul>
+    <div class="favorites">
+        <h2>Opgeslagen plaatsen</h2>
+        <ul id="saved-places">
+            <!-- De opgeslagen plaatsen worden hier weergegeven -->
+        </ul>
+    </div>
 
     <div class="kaart">
         <!--Kaart die locaties van de dataset markeert-->

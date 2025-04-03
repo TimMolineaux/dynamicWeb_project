@@ -119,3 +119,53 @@
   #data-table #link {
     text-align: center;
   }
+
+  .taal-container {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Ruimte tussen de taalknoppen */
+    margin-left: 20px;
+}
+
+/* Stijl van de taalknoppen */
+.knop {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    background-color: #f6f6f6;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* Hover-effect voor de taalkeuzeknoppen */
+.knop:hover {
+    background: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Tekst in de knoppen */
+.knop .text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+}
+
+/* Verandering van kleur voor zowel tekst als icoon bij hover */
+.knop:hover .text,
+.knop:hover .material-symbols-outlined {
+    color: #333;
+}
+
+/* Zorg dat de taalknoppen netjes naast de zoekbalk komen */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    margin-right: 10px;
+}

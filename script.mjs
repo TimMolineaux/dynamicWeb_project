@@ -75,7 +75,7 @@ document.querySelector('#search-input').addEventListener('input', filterPlaces);
 function filterPlaces() {
     const searchTerm = document.querySelector('#search-input').value.toLowerCase(); // Zoekterm omgezet naar kleine letters
     const tbody = document.querySelector('#data-table tbody');
-
+    
     // Alle rijen in de tabel ophalen
     const rows = Array.from(tbody.getElementsByTagName('tr'));
 
@@ -90,8 +90,6 @@ function filterPlaces() {
             row.style.display = 'none'; // Verberg de rij
         }
     });
-
-
 }
 
 // Functie om de tabel te sorteren
@@ -99,32 +97,40 @@ function sortTable(columnIndex) {
     var table = document.getElementById("data-table");
     var rows = Array.from(table.rows).slice(1); // Haal alle rijen behalve de header
 
-    // Sorteer de rijen op basis van de opgegeven kolomindex
+    // Bepaal of we oplopend of aflopend moeten sorteren
+    var isAscending = table.getAttribute('data-sort-direction') === 'asc';
     rows.sort(function(a, b) {
         var cellA = a.cells[columnIndex].textContent.trim();
         var cellB = b.cells[columnIndex].textContent.trim();
 
-        // Vergelijk de cellen en return de sorteerwaarde
-        if (cellA < cellB) {
-            return -1;
-        } else if (cellA > cellB) {
-            return 1;
+        // Afhankelijk van het type gegevens (tekst of nummer), sorteer de rijen
+        if (isNaN(cellA) && isNaN(cellB)) {
+            // Vergelijk tekstwaarden (voor string kolommen zoals Naam, Adres)
+            return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+        } else {
+            // Vergelijk numerieke waarden (voor numerieke kolommen zoals Postcode)
+            return isAscending ? cellA - cellB : cellB - cellA;
         }
-        return 0;
     });
 
     // Voeg de gesorteerde rijen terug in de tabel
     rows.forEach(function(row) {
         table.appendChild(row);
     });
+
+    // Wissel de sorteer volgorde voor de volgende keer
+    table.setAttribute('data-sort-direction', isAscending ? 'desc' : 'asc');
 }
 
 
 
-}
 
-document.getElementById('thema').addEventListener('click', toggleDarkMode);
 
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-theme'); // Wissel tussen donkere en lichte modus
-}
+
+
+
+
+
+
+
+

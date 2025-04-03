@@ -75,7 +75,7 @@ document.querySelector('#search-input').addEventListener('input', filterPlaces);
 function filterPlaces() {
     const searchTerm = document.querySelector('#search-input').value.toLowerCase(); // Zoekterm omgezet naar kleine letters
     const tbody = document.querySelector('#data-table tbody');
-    
+
     // Alle rijen in de tabel ophalen
     const rows = Array.from(tbody.getElementsByTagName('tr'));
 
@@ -120,3 +120,11 @@ function sortTable(columnIndex) {
 }
 
 
+
+}
+
+document.getElementById('thema').addEventListener('click', toggleDarkMode);
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-theme'); // Wissel tussen donkere en lichte modus
+}

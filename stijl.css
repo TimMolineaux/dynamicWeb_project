@@ -1,3 +1,8 @@
+body {
+    background-color: #fff;
+    color: #333;
+}
+
 .header-container {
     display: flex;
     align-items: center;
@@ -155,7 +160,7 @@
     border-radius: 30px;
     background-color: #f6f6f6;
     cursor: pointer;
-    transition: background 0.3s, box-shadow 0.3s;
+    transition: 0.3s, box-shadow 0.3s;
 }
 
 /* Hover-effect voor de taalkeuzeknoppen */
@@ -188,9 +193,6 @@
     margin-right: 10px;
 }
 
-
-
-
 .Brussels {
     font-family: 'Quicksand', sans-serif;
     color: black;
@@ -215,9 +217,97 @@ thead {
 }
 
 
+/* Donkere modus stijlen */
+body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
 
+body.dark-theme .tabel {
+    background-color: #333;
+}
 
+body.dark-theme #data-table th,
+body.dark-theme #data-table td {
+    color: #e0e0e0;
+    border-color: #555;
+}
 
+body.dark-theme #data-table th {
+    background-color: #444;
+}
 
+body.dark-theme #data-table tr:nth-child(even){background-color: #444;}
+body.dark-theme #data-table tr:hover {background-color: #666;}
 
+body.dark-theme .search input {
+    background-color: #444;
+    color: #fff;
+    border: 1px solid #666;
+}
 
+body.dark-theme .search-icon {
+    color: #fff;
+}
+
+body.dark-theme .knop {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    background-color: #444;
+    cursor: pointer;
+    transition: 0.3s, box-shadow 0.3s;
+}
+
+body.dark-theme .text {
+    font-size: 14px;
+    color: #fff;
+}
+
+body.dark-theme .knop:hover .text,
+body.dark-theme .knop:hover .material-symbols-outlined {
+    color: #777;
+}
+
+body.dark-theme .knop:hover {
+    background-color: #777;
+}
+
+body.dark-theme .map-link {
+    color: #fff;
+}
+
+body.dark-theme ul {
+    background-color: #444;
+    padding: 10px;
+    border-radius: 5px;
+    list-style-type: none;
+}
+
+body.dark-theme ul li {
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+body.dark-theme button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+body.dark-theme button:hover {
+    background-color: #777;
+}
+
+body.dark-theme .Brussels {
+    font-family: 'Quicksand', sans-serif;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+}

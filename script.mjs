@@ -68,3 +68,26 @@ function savePlace(placeName) {
 
     console.log(`Plaats "${placeName}" is opgeslagen!`);
 }
+
+// Voeg de zoekfunctie toe aan je JavaScript-bestand
+document.querySelector('#search-input').addEventListener('input', filterPlaces);
+
+function filterPlaces() {
+    const searchTerm = document.querySelector('#search-input').value.toLowerCase(); // Zoekterm omgezet naar kleine letters
+    const tbody = document.querySelector('#data-table tbody');
+    
+    // Alle rijen in de tabel ophalen
+    const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    // Filter de rijen op basis van de zoekterm
+    rows.forEach(row => {
+        const placeName = row.cells[0].textContent.toLowerCase(); // De naam van de plaats (eerste kolom)
+
+        // Als de plaatsnaam de zoekterm bevat, toon dan de rij, anders verberg de rij
+        if (placeName.includes(searchTerm)) {
+            row.style.display = ''; // Toon de rij
+        } else {
+            row.style.display = 'none'; // Verberg de rij
+        }
+    });
+}

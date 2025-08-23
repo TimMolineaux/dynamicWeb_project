@@ -48,30 +48,42 @@ async function displayItems(data) {
 
 //functie die de gebruiker toelaat plaatsnamen op te slaan
 function savePlace(placeName) {
+    let savedPlaces = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    if (!savedPlaces.includes(placeName)) {
+        savedPlaces.push(placeName);
+        localStorage.setItem('favorites', JSON.stringify(savedPlaces));
+    }
+
+    renderFavorites(); // herteken de lijst
+}
+
+function renderFavorites() {
     const savedPlacesList = document.querySelector('#saved-places');
+    savedPlacesList.innerHTML = '';
 
-    // Maak een nieuw lijstitem voor de opgeslagen plaats
-    const listItem = document.createElement('li');
-    listItem.textContent = placeName;
+    const savedPlaces = JSON.parse(localStorage.getItem('favorites')) || [];
 
-    // Maak de verwijderknop
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Verwijder';
-    deleteButton.onclick = function () {
-        // Verwijder het lijstitem wanneer op de knop wordt geklikt
-        savedPlacesList.removeChild(listItem);
-        //bericht in console die laat weten dat plaats is verwijderd
-        console.log(`Plaats "${placeName}" is verwijderd!`);
-    };
+    savedPlaces.forEach(place => {
+        const listItem = document.createElement('li');
+        listItem.textContent = place;
 
-    // Voeg de verwijderknop toe aan het lijstitem
-    listItem.appendChild(deleteButton);
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Verwijder';
+        deleteButton.onclick = () => {
+            removeFavorite(place);
+        };
 
-    // Voeg het item toe aan de lijst
-    savedPlacesList.appendChild(listItem);
+        listItem.appendChild(deleteButton);
+        savedPlacesList.appendChild(listItem);
+    });
+}
 
-    //bericht in de console om te laten weten dat de plaats correct is opgeslagen
-    console.log(`Plaats "${placeName}" is opgeslagen!`);
+function removeFavorite(place) {
+    let savedPlaces = JSON.parse(localStorage.getItem('favorites')) || [];
+    savedPlaces = savedPlaces.filter(p => p !== place);
+    localStorage.setItem('favorites', JSON.stringify(savedPlaces));
+    renderFavorites();
 }
 
 //functie die de gebruiker laat zoeken naar een specifieke plaatsnaam
@@ -191,3 +203,5 @@ function resetToDefault() {
     tbody.innerHTML = '';
     originalRows.forEach(row => tbody.appendChild(row));
 }
+
+renderFavorites();

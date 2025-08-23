@@ -27,21 +27,21 @@
                 <span class="material-symbols-outlined">flag</span>
                 <span class="text">NL</span>
             </div>
-    
+
             <div class="knop">
                 <span class="material-symbols-outlined">flag</span>
                 <span class="text">DE</span>
             </div>
-    
+
             <div class="knop">
                 <span class="material-symbols-outlined">flag</span>
                 <span class="text">FR</span>
             </div>
-    
+
             <div class="knop" id="thema">
                 <span class="material-symbols-outlined">dark_mode</span>
                 <span class="text"></span>
-            </div>  
+            </div>
         </div>
     </div>
 
@@ -57,8 +57,8 @@
                 <option value="postcode">Postcode</option>
             </select>
         </div>
-           
-    
+
+
         <div class="tabel">
             <table id="data-table">
                 <thead>
@@ -66,7 +66,10 @@
                         <th>Naam</th>
                         <th>Adres</th>
                         <th>Postcode</th>
-                        <th>Google maps</th>
+                        <th>Plaats</th>
+                        <th>Street View</th>
+                        <th>Google Maps</th>
+                        <th>Actie</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,7 +77,7 @@
                 </tbody>
             </table>
         </div>
-    
+
         <div class="favorites">
             <h2>Opgeslagen plaatsen</h2>
             <ul id="saved-places">
@@ -86,7 +89,9 @@
 
     <div class="kaart">
         <!--Kaart die locaties van de dataset markeert-->
-        <iframe src="https://bruxellesdata.opendatasoft.com/explore/embed/dataset/bruxelles_lieux_culturels/map/?location=11,50.88029,4.38595&basemap=jawg.sunny&static=false&datasetcard=true&scrollWheelZoom=true" width="1100" height="550" frameborder="1"></iframe>
+        <iframe
+            src="https://bruxellesdata.opendatasoft.com/explore/embed/dataset/bruxelles_lieux_culturels/map/?location=11,50.88029,4.38595&basemap=jawg.sunny&static=false&datasetcard=true&scrollWheelZoom=true"
+            width="1100" height="550" frameborder="1"></iframe>
     </div>
 
     <script src="script.mjs"></script>

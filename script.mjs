@@ -20,30 +20,29 @@ async function fetchData() {
 //functie die opgehaalde data in een tabel plaatst
 async function displayItems(data) {
     const tbody = document.querySelector('#data-table tbody');
-    const savedPlacesList = document.querySelector('#saved-places');
 
-    // Controleer of data deftig in de results array staat en geef een foutmelding weer indien niet
     if (!Array.isArray(data.results) || data.results.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5">Geen resultaten gevonden.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7">Geen resultaten gevonden.</td></tr>';
         return;
     }
 
-    // Loop door de items in de results array en voeg ze toe aan de tabel
-    data.results.forEach(item => {
+    originalRows = data.results.map(item => {
         const row = document.createElement('tr');
-
-        // Voeg de cellen toe met de gegevens van elk item
         row.innerHTML = `
             <td>${item.beschrijving || 'Geen titel'}</td>
             <td>${item.adres || 'Geen adres'}</td>
             <td>${item.code_postal || 'Onbekend'}</td>
-            <td id="link"><a href="https://www.google.com/maps/search/?api=1&query=${item.coordonnees_geographiques.lat},${item.coordonnees_geographiques.lon}" target="_blank" class="map-link">Bekijk op Google Maps</a></td>
-            <td id="link"><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
+            <td>${item.plaats || 'Onbekend'}</td>
+            <td><a href="${item.google_street_view}" target="_blank">Street View</a></td>
+            <td><a href="${item.google_maps}" target="_blank">Google Maps</a></td>
+            <td><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
         `;
-
-        // Voeg de nieuwe rij toe aan de tabel
-        tbody.appendChild(row);
+        return row;
     });
+
+    // Vul de tabel
+    tbody.innerHTML = '';
+    originalRows.forEach(row => tbody.appendChild(row));
 }
 
 //functie die de gebruiker toelaat plaatsnamen op te slaan
@@ -115,36 +114,7 @@ function toggleDarkMode() {
     document.body.classList.toggle('dark-theme');
 }
 
-//functie die de gebruiker de tabel laat sorteren op naam, adres en postcode
-let originalRows = []; // Variabele om de originele rijen op te slaan indien we de standaarvolgorde willen herstellen
-
 fetchData();
-
-async function displayItems(data) {
-    const tbody = document.querySelector('#data-table tbody');
-
-    if (!Array.isArray(data.results) || data.results.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5">Geen resultaten gevonden.</td></tr>';
-        return;
-    }
-
-    // Bewaar de originele rijen voor het geval we terug willen naar de standaard volgorde
-    originalRows = data.results.map(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.beschrijving || 'Geen titel'}</td>
-            <td>${item.adres || 'Geen adres'}</td>
-            <td>${item.code_postal || 'Onbekend'}</td>
-            <td id="link"><a href="https://www.google.com/maps/search/?api=1&query=${item.coordonnees_geographiques.lat},${item.coordonnees_geographiques.lon}" target="_blank" class="map-link">Bekijk op Google Maps</a></td>
-            <td id="link"><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
-        `;
-        return row;
-    });
-
-    // Voeg de originele rijen toe aan de tabel
-    tbody.innerHTML = '';
-    originalRows.forEach(row => tbody.appendChild(row));
-}
 
 document.querySelector('#sort-options').addEventListener('change', function () {
     const sortBy = this.value;

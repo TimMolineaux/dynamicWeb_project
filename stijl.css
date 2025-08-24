@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     background-color: #fff;
     color: #333;
@@ -140,14 +144,13 @@ body {
     text-align: center;
   }
 
-  .taal-container {
+  .navitem-container {
     display: flex;
     align-items: center;
-    gap: 12px; /* Ruimte tussen de taalknoppen */
+    gap: 12px; 
     margin-left: 20px;
 }
 
-/* Stijl van de taalknoppen */
 .knop {
     display: flex;
     align-items: center;
@@ -160,13 +163,11 @@ body {
     transition: 0.3s, box-shadow 0.3s;
 }
 
-/* Hover-effect voor de taalkeuzeknoppen */
 .knop:hover {
     background: #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Tekst in de knoppen */
 .knop .text {
     font-size: 14px;
     font-weight: 600;
@@ -351,6 +352,37 @@ ul li {
     transition: opacity 0.3s;
 }
 
+.taal-selector {
+    position: relative;
+}
+
+.language-dropdown {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #f6f6f6;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
+    min-width: 160px;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.language-dropdown.visible {
+    display: block;
+}
+
+.language-option {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.language-option:hover {
+    background: #e0e0e0;
+}
+
 /* Donkere modus stijlen */
 body.dark-theme {
     background-color: #121212;
@@ -489,4 +521,16 @@ body.dark-theme .search-icon {
     font-size: 24px;
     color: #fff;
     margin-right: 10px;
+}
+
+body.dark-theme .language-dropdown {
+    background: #444;
+}
+
+body.dark-theme .language-option {
+    color: #fff;
+}
+
+body.dark-theme .language-option:hover {
+    background: #555;
 }

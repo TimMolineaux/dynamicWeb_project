@@ -17,6 +17,142 @@ async function fetchData() {
     }
 }
 
+//vertalingen
+let currentLang = localStorage.getItem('language') || 'nl';
+
+const translations = {
+    nl: {
+        theme: "Thema",
+        language: "Taal",
+        feedback: "Feedback",
+        favorites: "Favorieten",
+        sortBy: "Sorteren op:",
+        default: "Standaard",
+        name: "Naam",
+        address: "Adres",
+        postcode: "Postcode",
+        city: "Plaats",
+        streetView: "Street View",
+        googleMaps: "Google Maps",
+        action: "Actie",
+        nameOptional: "Naam (optioneel):",
+        emailOptional: "E-mail (optioneel):",
+        messageRequired: "Bericht (verplicht):",
+        sendFeedback: "Verstuur feedback",
+        latestFeedback: "Laatste feedback",
+        yourName: "Jouw naam",
+        yourEmail: "jouw@email.com",
+        typeYourFeedback: "Typ je feedback hier...",
+        searchPlaceholder: "Zoek naar een plaats...",
+        addedToFavorites: '"{name}" is toegevoegd aan favorieten!',
+        removedFromFavorites: '"{name}" is verwijderd uit favorieten.',
+        noFavorites: "Geen favorieten",
+        noResults: "Geen resultaten gevonden.",
+        noFeedbackYet: "Er is nog geen feedback ingediend.",
+        fillName: "Vul je naam in.",
+        fillEmail: "Vul je e-mailadres in.",
+        validEmail: "Vul een geldig e-mailadres in.",
+        messageTooShort: "Je bericht moet minstens 10 tekens bevatten.",
+        thankYou: "Bedankt voor je feedback!",
+        noTitle: "Geen titel",
+        noAddress: "Geen adres",
+        unknown: "Onbekend"
+    },
+    fr: {
+        theme: "Thème",
+        language: "Langue",
+        feedback: "Commentaires",
+        favorites: "Favoris",
+        sortBy: "Trier par :",
+        default: "Par défaut",
+        name: "Nom",
+        address: "Adresse",
+        postcode: "Code postal",
+        city: "Ville",
+        streetView: "Vue de rue",
+        googleMaps: "Google Maps",
+        action: "Action",
+        nameOptional: "Nom (optionnel) :",
+        emailOptional: "E-mail (optionnel) :",
+        messageRequired: "Message (obligatoire) :",
+        sendFeedback: "Envoyer",
+        latestFeedback: "Derniers commentaires",
+        yourName: "Votre nom",
+        yourEmail: "votre@email.com",
+        typeYourFeedback: "Tapez votre message ici...",
+        searchPlaceholder: "Rechercher un lieu...",
+        addedToFavorites: '"{name}" a été ajouté aux favoris !',
+        removedFromFavorites: '"{name}" a été supprimé des favoris.',
+        noFavorites: "Aucun favori",
+        noResults: "Aucun résultat trouvé.",
+        noFeedbackYet: "Aucun commentaire soumis.",
+        fillName: "Veuillez entrer votre nom.",
+        fillEmail: "Veuillez entrer votre adresse e-mail.",
+        validEmail: "Veuillez entrer une adresse e-mail valide.",
+        messageTooShort: "Votre message doit contenir au moins 10 caractères.",
+        thankYou: "Merci pour votre commentaire !",
+        noTitle: "Pas de titre",
+        noAddress: "Pas d'adresse",
+        unknown: "Inconnu"
+    },
+    en: {
+        theme: "Theme",
+        language: "Language",
+        feedback: "Feedback",
+        favorites: "Favorites",
+        sortBy: "Sort by:",
+        default: "Default",
+        name: "Name",
+        address: "Address",
+        postcode: "Postal Code",
+        city: "City",
+        streetView: "Street View",
+        googleMaps: "Google Maps",
+        action: "Action",
+        nameOptional: "Name (optional):",
+        emailOptional: "Email (optional):",
+        messageRequired: "Message (required):",
+        sendFeedback: "Submit feedback",
+        latestFeedback: "Latest feedback",
+        yourName: "Your name",
+        yourEmail: "your@email.com",
+        typeYourFeedback: "Type your feedback here...",
+        searchPlaceholder: "Search for a place...",
+        addedToFavorites: '"{name}" was added to favorites!',
+        removedFromFavorites: '"{name}" was removed from favorites.',
+        noFavorites: "No favorites",
+        noResults: "No results found.",
+        noFeedbackYet: "No feedback submitted yet.",
+        fillName: "Please enter your name.",
+        fillEmail: "Please enter your email address.",
+        validEmail: "Please enter a valid email address.",
+        messageTooShort: "Your message must be at least 10 characters long.",
+        thankYou: "Thank you for your feedback!",
+        noTitle: "No title",
+        noAddress: "No address",
+        unknown: "Unknown"
+    }
+};
+
+
+function applyTranslations(lang) {
+    currentLang = lang;
+
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = translations[lang][key] || key;
+    });
+
+    const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+    placeholders.forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.placeholder = translations[lang][key] || key;
+    });
+
+    localStorage.setItem('language', lang);
+}
+
 // Pas het thema toe bij het laden van de pagina
 window.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
@@ -30,7 +166,7 @@ async function displayItems(data) {
     const tbody = document.querySelector('#data-table tbody');
 
     if (!Array.isArray(data.results) || data.results.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7">Geen resultaten gevonden.</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="7">${translations[currentLang]?.noResults}</td></tr>`;
         return;
     }
 
@@ -61,7 +197,7 @@ function savePlace(placeName, mapLink) {
         savedPlaces.push({ name: placeName, mapLink: mapLink });
         localStorage.setItem('favorites', JSON.stringify(savedPlaces));
         renderFavorites();
-        showNotification(`"${placeName}" is toegevoegd aan favorieten!`, 'green');
+        showNotification('addedToFavorites', 'green', 3000, { name: placeName });
     }
 }
 
@@ -103,7 +239,7 @@ function removeFavorite(placeName) {
     savedPlaces = savedPlaces.filter(p => p.name !== placeName);
     localStorage.setItem('favorites', JSON.stringify(savedPlaces));
     renderFavorites();
-    showNotification(`"${placeName}" is verwijderd uit favorieten.`, 'red');
+    showNotification('removedFromFavorites', 'red', 3000, { name: placeName });
 
 }
 
@@ -234,32 +370,32 @@ document.getElementById('feedback-form').addEventListener('submit', function (e)
 
     // Validatie
     if (name.length === 0) {
-        errorElem.textContent = 'Vul je naam in.';
+        errorElem.textContent = translations[currentLang]?.fillName || "Vul je naam in.";
         return;
     }
 
     if (email.length === 0) {
-        errorElem.textContent = 'Vul je e-mailadres in.';
+        errorElem.textContent = translations[currentLang]?.fillEmail || "Vul je e-mailadres in.";
         return;
     }
+
     if (message.length < 10) {
-        errorElem.textContent = 'Je bericht moet minstens 10 tekens bevatten.';
+        errorElem.textContent = translations[currentLang]?.messageTooShort || "Je bericht moet minstens 10 tekens bevatten.";
         return;
     }
 
     if (email && !validateEmail(email)) {
-        errorElem.textContent = 'Vul een geldig e-mailadres in.';
+        errorElem.textContent = translations[currentLang]?.validEmail || "Vul een geldig e-mailadres in.";
         return;
     }
+
+    successElem.textContent = translations[currentLang]?.thankYou || "Bedankt voor je feedback!";
 
     // Feedback opslaan in localStorage
     let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
     feedbacks.push({ name, email, message, date: new Date().toISOString() });
     localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
     renderFeedbackList();
-
-    // Feedback verstuurd, bevestigen aan gebruiker
-    successElem.textContent = 'Bedankt voor je feedback!';
 
     // Formulier resetten
     e.target.reset();
@@ -279,7 +415,7 @@ function renderFeedbackList() {
     const feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
 
     if (feedbacks.length === 0) {
-        feedbackList.innerHTML = '<li>Er is nog geen feedback ingediend.</li>';
+        feedbackList.innerHTML = `<li>${translations[currentLang]?.noFeedbackYet}</li>`;
         return;
     }
 
@@ -310,17 +446,48 @@ document.addEventListener('click', () => {
 });
 
 //meldingen
-function showNotification(message, color = 'green', duration = 3000) {
+function showNotification(keyOrMessage, color = 'green', duration = 3000, replaceData = {}) {
     const notificationEl = document.getElementById('notification');
+
+    let message = translations[currentLang]?.[keyOrMessage] || keyOrMessage;
+
+    Object.entries(replaceData).forEach(([key, value]) => {
+        message = message.replace(`{${key}}`, value);
+    });
+
     notificationEl.style.color = color;
     notificationEl.textContent = message;
-    
+
     setTimeout(() => {
         notificationEl.textContent = '';
     }, duration);
 }
 
+// Toggle taal dropdown
+document.getElementById('language-toggle').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('language-dropdown').classList.toggle('visible');
+});
+
+// Sluit dropdown bij klik buiten
+document.addEventListener('click', () => {
+    document.getElementById('language-dropdown').classList.remove('visible');
+});
+
+// Taal veranderen bij selectie
+document.querySelectorAll('.language-option').forEach(option => {
+    option.addEventListener('click', () => {
+        const selectedLang = option.getAttribute('data-lang');
+        applyTranslations(selectedLang);
+        localStorage.setItem('language', selectedLang);
+        document.getElementById('language-dropdown').classList.remove('visible');
+    });
+});
+
 window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('language') || 'nl';
+    applyTranslations(savedLang);
+
     renderFavorites();
     renderFeedbackList();
 });

@@ -94,6 +94,31 @@
             width="1100" height="550" frameborder="1"></iframe>
     </div>
 
+    <section class="feedback-wrapper">
+        <div class="feedback-section">
+            <h2>Feedback</h2>
+            <form id="feedback-form">
+                <label for="name">Naam (optioneel):</label>
+                <input type="text" id="name" name="name" placeholder="Jouw naam" />
+
+                <label for="email">E-mail (optioneel):</label>
+                <input type="email" id="email" name="email" placeholder="jouw@email.com" />
+
+                <label for="message">Bericht (verplicht):</label>
+                <textarea id="message" name="message" placeholder="Typ je feedback hier..." required></textarea>
+
+                <button type="submit">Verstuur feedback</button>
+                <p id="feedback-error" style="color: red;"></p>
+                <p id="feedback-success" style="color: green;"></p>
+            </form>
+        </div>
+
+        <div class="feedback-display">
+            <h3>Laatste feedback</h3>
+            <ul id="feedback-list"></ul>
+        </div>
+    </section>
+
     <script src="script.mjs"></script>
 </body>
 

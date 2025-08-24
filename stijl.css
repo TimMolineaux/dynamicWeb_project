@@ -92,6 +92,21 @@ body {
     align-items: center;
 }
 
+.kaart.zichtbaar {
+  animation: fadeIn 1s ease-in;
+  opacity: 1;
+}
+
+.kaart {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .tabel {
     display: flex;
     justify-content: space-around;
@@ -221,6 +236,79 @@ ul li {
     flex-direction: column;
     gap: 10px;
     padding: 10px;
+}
+
+.feedback-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1100px;
+  padding: 1rem;
+}
+
+.feedback-section {
+  flex: 1 1 45%;
+  min-width: 300px;
+  max-width: 500px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.feedback-section label {
+  display: block;
+  margin: 0.5rem 0 0.2rem;
+  font-weight: 600;
+}
+
+.feedback-section input,
+.feedback-section textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.feedback-section button {
+  padding: 0.6rem 1.2rem;
+  background-color: #0057a3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.feedback-section button:hover {
+  background-color: #004080;
+}
+
+.feedback-display {
+  flex: 1 1 45%;
+  min-width: 300px;
+  max-width: 500px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+#feedback-list {
+  list-style: none;
+  padding: 0;
+}
+
+#feedback-list li {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fefefe;
 }
 
 /* Donkere modus stijlen */

@@ -2,7 +2,7 @@
 fetchData();
 async function fetchData() {
     try {
-        const response = await fetch('https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/bruxelles_lieux_culturels/records?limit=20');
+        const response = await fetch('https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/bruxelles_lieux_culturels/records?limit=100');
 
         if (!response.ok) {
             throw new Error("Netwerkfout bij het ophalen van de data");
@@ -16,6 +16,14 @@ async function fetchData() {
         alert('Er is een fout opgetreden bij het ophalen van de data');
     }
 }
+
+// Pas het thema toe bij het laden van de pagina
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+});
 
 //functie die opgehaalde data in een tabel plaatst
 async function displayItems(data) {
@@ -102,7 +110,7 @@ function filterPlaces() {
         if (placeName.includes(searchTerm)) {
             row.style.display = '';
         } else {
-            row.style.display = 'none'; 
+            row.style.display = 'none';
         }
     });
 }
@@ -112,6 +120,11 @@ document.getElementById('thema').addEventListener('click', toggleDarkMode);
 
 function toggleDarkMode() {
     document.body.classList.toggle('dark-theme');
+    if (document.body.classList.contains('dark-theme')) {
+        localStorage.setItem('theme', 'dark');
+    } else {
+        localStorage.setItem('theme', 'light');
+    }
 }
 
 fetchData();
@@ -174,4 +187,107 @@ function resetToDefault() {
     originalRows.forEach(row => tbody.appendChild(row));
 }
 
+// Observer API gebruiken om te detecteren wanneer de kaart zichtbaar wordt
+const kaartSectie = document.querySelector('.kaart');
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            kaartSectie.classList.add('zichtbaar');
+
+            observer.unobserve(kaartSectie);
+        }
+    });
+}, {
+    threshold: 0.6
+});
+
+observer.observe(kaartSectie);
+
 renderFavorites();
+
+//feedbackformulier
+document.getElementById('feedback-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const errorElem = document.getElementById('feedback-error');
+    const successElem = document.getElementById('feedback-success');
+
+    // Reset berichten
+    errorElem.textContent = '';
+    successElem.textContent = '';
+
+    // Validatie
+
+    if (name.length === 0) {
+        errorElem.textContent = 'Vul je naam in.';
+        return;
+    }
+
+    if (email.length === 0) {
+        errorElem.textContent = 'Vul je e-mailadres in.';
+        return;
+    }
+    if (message.length < 10) {
+        errorElem.textContent = 'Je bericht moet minstens 10 tekens bevatten.';
+        return;
+    }
+
+    if (email && !validateEmail(email)) {
+        errorElem.textContent = 'Vul een geldig e-mailadres in.';
+        return;
+    }
+
+    // Feedback opslaan in localStorage
+    let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+    feedbacks.push({ name, email, message, date: new Date().toISOString() });
+    localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+    renderFeedbackList();
+
+    // Feedback verstuurd, bevestigen aan gebruiker
+    successElem.textContent = 'Bedankt voor je feedback!';
+
+    // Formulier resetten
+    e.target.reset();
+});
+
+// Simpele e-mail validatie functie
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+//Verzamelde feedback weergeven
+function renderFeedbackList() {
+    const feedbackList = document.getElementById('feedback-list');
+    feedbackList.innerHTML = '';
+
+    const feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+
+    if (feedbacks.length === 0) {
+        feedbackList.innerHTML = '<li>Er is nog geen feedback ingediend.</li>';
+        return;
+    }
+
+    //Sorteren
+    const latestFeedbacks = feedbacks
+        .sort((a, b) => new Date(b.date) - new Date(a.date)) // sorteer op datum, nieuwste eerst
+        .slice(0, 5); // neem enkel de eerste 5
+
+    latestFeedbacks.forEach(fb => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+    <strong>${fb.name || 'Anoniem'}</strong> (${new Date(fb.date).toLocaleDateString()}):<br/>
+    <em>${fb.message}</em>
+  `;
+        feedbackList.appendChild(listItem);
+    });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    renderFavorites();
+    renderFeedbackList();
+});

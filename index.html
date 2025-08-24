@@ -23,27 +23,34 @@
             <input type="text" id="search-input" placeholder="Zoek naar een plaats..." />
         </div>
         <div class="taal-container">
+
+            <div class="knop" id="thema">
+                <span class="material-symbols-outlined">dark_mode</span>
+                <span class="text"></span>
+            </div>
+
             <div class="knop">
                 <span class="material-symbols-outlined">flag</span>
                 <span class="text">NL</span>
             </div>
 
             <div class="knop">
-                <span class="material-symbols-outlined">flag</span>
-                <span class="text">DE</span>
+                <span class="text">Feedback</span>
             </div>
 
-            <div class="knop">
-                <span class="material-symbols-outlined">flag</span>
-                <span class="text">FR</span>
+            <div class="knop" id="favorites-toggle">
+                <span class="material-symbols-outlined">favorite</span>
+                <span class="text">Favorieten</span>
             </div>
 
-            <div class="knop" id="thema">
-                <span class="material-symbols-outlined">dark_mode</span>
-                <span class="text"></span>
+            <div class="favorites-dropdown" id="favorites-dropdown">
+                <ul id="favorites-list"></ul>
             </div>
+
         </div>
     </div>
+
+    <div id="notification"></div>
 
     <div class="item">
 
@@ -76,13 +83,6 @@
                     <!-- Hier worden rijen met data van de API toegevoegd -->
                 </tbody>
             </table>
-        </div>
-
-        <div class="favorites">
-            <h2>Opgeslagen plaatsen</h2>
-            <ul id="saved-places">
-                <!-- De opgeslagen plaatsen worden hier weergegeven -->
-            </ul>
         </div>
 
     </div>

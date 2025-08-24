@@ -204,19 +204,51 @@ body {
     font-size: 23px; /* Pas de grootte aan zoals gewenst */
 }
 
-.favorites {
-    display: flex;
+.favorites-dropdown {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     padding: 10px;
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    color: #333;
-    flex-direction: column;
-    align-items: center;
-    width: 65%;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    min-width: 220px;
 }
 
-.favorites h2 {
+.favorites-dropdown.visible {
+    display: block;
+}
+
+#favorites-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
+}
+
+#favorites-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+#favorites-list a {
+    color: #0077B5;
+    text-decoration: none;
+    flex: 1;
+    margin-right: 10px;
+}
+
+#favorites-list button {
+    background-color: transparent;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 ul {
@@ -311,6 +343,14 @@ ul li {
   background-color: #fefefe;
 }
 
+#notification {
+    text-align: center;
+    margin-bottom: 10px;
+    min-height: 24px;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
 /* Donkere modus stijlen */
 body.dark-theme {
     background-color: #121212;
@@ -379,14 +419,18 @@ body.dark-theme .map-link {
     color: #fff;
 }
 
-body.dark-theme .favorites {
-    display: flex;
-    padding: 10px;
-    border-radius: 5px;
-    color: #f2f2f2;
+body.dark-theme .favorites-dropdown {
     background-color: #333;
-    flex-direction: column;
-    align-items: center;
+    border-color: #555;
+    color: #fff;
+}
+
+body.dark-theme #favorites-list a {
+    color: #4da3ff;
+}
+
+body.dark-theme #favorites-list button {
+    color: #ff6b6b;
 }
 
 body.dark-theme button {

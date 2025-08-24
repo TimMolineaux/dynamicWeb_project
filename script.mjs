@@ -43,7 +43,7 @@ async function displayItems(data) {
             <td>${item.plaats || 'Onbekend'}</td>
             <td><a href="${item.google_street_view}" target="_blank">Street View</a></td>
             <td><a href="${item.google_maps}" target="_blank">Google Maps</a></td>
-            <td><button onclick="savePlace('${item.beschrijving || 'Onbekend'}')">Opslaan</button></td>
+            <td><button onclick="savePlace('${item.beschrijving || 'Onbekend'}', '${item.google_maps}')">Opslaan</button></td>
         `;
         return row;
     });
@@ -54,43 +54,57 @@ async function displayItems(data) {
 }
 
 //functie die de gebruiker toelaat plaatsnamen op te slaan
-function savePlace(placeName) {
+function savePlace(placeName, mapLink) {
     let savedPlaces = JSON.parse(localStorage.getItem('favorites')) || [];
 
-    if (!savedPlaces.includes(placeName)) {
-        savedPlaces.push(placeName);
+    if (!savedPlaces.some(p => p.name === placeName)) {
+        savedPlaces.push({ name: placeName, mapLink: mapLink });
         localStorage.setItem('favorites', JSON.stringify(savedPlaces));
+        renderFavorites();
+        showNotification(`"${placeName}" is toegevoegd aan favorieten!`, 'green');
     }
-
-    renderFavorites(); // herteken de lijst
 }
 
 function renderFavorites() {
-    const savedPlacesList = document.querySelector('#saved-places');
+    const savedPlaces = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    const savedPlacesList = document.querySelector('#favorites-list');
+    if (!savedPlacesList) {
+        console.warn('favorites-list niet gevonden in de DOM.');
+        return;
+    }
+
     savedPlacesList.innerHTML = '';
 
-    const savedPlaces = JSON.parse(localStorage.getItem('favorites')) || [];
+    if (savedPlaces.length === 0) {
+        savedPlacesList.innerHTML = '<li>Geen favorieten</li>';
+        return;
+    }
 
     savedPlaces.forEach(place => {
         const listItem = document.createElement('li');
-        listItem.textContent = place;
+        const link = document.createElement('a');
+        link.href = place.mapLink;
+        link.textContent = place.name;
+        link.target = '_blank';
 
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Verwijder';
-        deleteButton.onclick = () => {
-            removeFavorite(place);
-        };
+        deleteButton.textContent = '✕';
+        deleteButton.onclick = () => removeFavorite(place.name);
 
+        listItem.appendChild(link);
         listItem.appendChild(deleteButton);
         savedPlacesList.appendChild(listItem);
     });
 }
 
-function removeFavorite(place) {
+function removeFavorite(placeName) {
     let savedPlaces = JSON.parse(localStorage.getItem('favorites')) || [];
-    savedPlaces = savedPlaces.filter(p => p !== place);
+    savedPlaces = savedPlaces.filter(p => p.name !== placeName);
     localStorage.setItem('favorites', JSON.stringify(savedPlaces));
     renderFavorites();
+    showNotification(`"${placeName}" is verwijderd uit favorieten.`, 'red');
+
 }
 
 //functie die de gebruiker laat zoeken naar een specifieke plaatsnaam
@@ -204,8 +218,6 @@ const observer = new IntersectionObserver((entries) => {
 
 observer.observe(kaartSectie);
 
-renderFavorites();
-
 //feedbackformulier
 document.getElementById('feedback-form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -221,7 +233,6 @@ document.getElementById('feedback-form').addEventListener('submit', function (e)
     successElem.textContent = '';
 
     // Validatie
-
     if (name.length === 0) {
         errorElem.textContent = 'Vul je naam in.';
         return;
@@ -285,6 +296,28 @@ function renderFeedbackList() {
   `;
         feedbackList.appendChild(listItem);
     });
+}
+
+// Toon/verberg favorieten dropdown
+document.getElementById('favorites-toggle').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('favorites-dropdown').classList.toggle('visible');
+});
+
+// Sluit dropdown als je ergens anders klikt
+document.addEventListener('click', () => {
+    document.getElementById('favorites-dropdown').classList.remove('visible');
+});
+
+//meldingen
+function showNotification(message, color = 'green', duration = 3000) {
+    const notificationEl = document.getElementById('notification');
+    notificationEl.style.color = color;
+    notificationEl.textContent = message;
+    
+    setTimeout(() => {
+        notificationEl.textContent = '';
+    }, duration);
 }
 
 window.addEventListener('DOMContentLoaded', () => {

@@ -35,9 +35,9 @@ const translations = {
         streetView: "Street View",
         googleMaps: "Google Maps",
         action: "Actie",
-        nameOptional: "Naam (optioneel):",
-        emailOptional: "E-mail (optioneel):",
-        messageRequired: "Bericht (verplicht):",
+        nameOptional: "Naam:",
+        emailOptional: "E-mail:",
+        messageRequired: "Bericht:",
         sendFeedback: "Verstuur feedback",
         latestFeedback: "Laatste feedback",
         yourName: "Jouw naam",
@@ -56,7 +56,8 @@ const translations = {
         thankYou: "Bedankt voor je feedback!",
         noTitle: "Geen titel",
         noAddress: "Geen adres",
-        unknown: "Onbekend"
+        unknown: "Onbekend",
+        save: "Opslaan"
     },
     fr: {
         theme: "Thème",
@@ -72,9 +73,9 @@ const translations = {
         streetView: "Vue de rue",
         googleMaps: "Google Maps",
         action: "Action",
-        nameOptional: "Nom (optionnel) :",
-        emailOptional: "E-mail (optionnel) :",
-        messageRequired: "Message (obligatoire) :",
+        nameOptional: "Nom:",
+        emailOptional: "E-mail:",
+        messageRequired: "Message:",
         sendFeedback: "Envoyer",
         latestFeedback: "Derniers commentaires",
         yourName: "Votre nom",
@@ -93,7 +94,8 @@ const translations = {
         thankYou: "Merci pour votre commentaire !",
         noTitle: "Pas de titre",
         noAddress: "Pas d'adresse",
-        unknown: "Inconnu"
+        unknown: "Inconnu",
+        save: "Enregistrer"
     },
     en: {
         theme: "Theme",
@@ -109,9 +111,9 @@ const translations = {
         streetView: "Street View",
         googleMaps: "Google Maps",
         action: "Action",
-        nameOptional: "Name (optional):",
-        emailOptional: "Email (optional):",
-        messageRequired: "Message (required):",
+        nameOptional: "Name:",
+        emailOptional: "Email:",
+        messageRequired: "Message:",
         sendFeedback: "Submit feedback",
         latestFeedback: "Latest feedback",
         yourName: "Your name",
@@ -130,7 +132,8 @@ const translations = {
         thankYou: "Thank you for your feedback!",
         noTitle: "No title",
         noAddress: "No address",
-        unknown: "Unknown"
+        unknown: "Unknown",
+        save: "Save"
     }
 };
 
@@ -151,6 +154,21 @@ function applyTranslations(lang) {
     });
 
     localStorage.setItem('language', lang);
+
+    if (typeof originalRows !== 'undefined') {
+        displayItems({
+            results: originalRows.map(row => {
+                return {
+                    beschrijving: row.cells[0].textContent,
+                    adres: row.cells[1].textContent,
+                    code_postal: row.cells[2].textContent,
+                    plaats: row.cells[3].textContent,
+                    google_street_view: row.cells[4].querySelector('a')?.href,
+                    google_maps: row.cells[5].querySelector('a')?.href
+                };
+            })
+        });
+    }
 }
 
 // Pas het thema toe bij het laden van de pagina
@@ -179,7 +197,7 @@ async function displayItems(data) {
             <td>${item.plaats || 'Onbekend'}</td>
             <td><a href="${item.google_street_view}" target="_blank">Street View</a></td>
             <td><a href="${item.google_maps}" target="_blank">Google Maps</a></td>
-            <td><button onclick="savePlace('${item.beschrijving || 'Onbekend'}', '${item.google_maps}')">Opslaan</button></td>
+            <td><button onclick="savePlace('${item.beschrijving || 'Onbekend'}', '${item.google_maps}')">${translations[currentLang]?.save || 'Opslaan'}</button></td>
         `;
         return row;
     });

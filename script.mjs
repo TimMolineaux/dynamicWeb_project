@@ -1,5 +1,4 @@
 //functie die verbind met de api en alle nodige data er uit haald
-fetchData();
 async function fetchData() {
     try {
         const response = await fetch('https://bruxellesdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/bruxelles_lieux_culturels/records?limit=100');
@@ -9,7 +8,6 @@ async function fetchData() {
         }
 
         const data = await response.json();
-        console.log(data);//opgehaalde data in de console weergeven om te testen
         displayItems(data);
     } catch (error) {
         console.error('Er is een fout opgetreden:', error);
@@ -170,14 +168,6 @@ function applyTranslations(lang) {
         });
     }
 }
-
-// Pas het thema toe bij het laden van de pagina
-window.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-    }
-});
 
 //functie die opgehaalde data in een tabel plaatst
 async function displayItems(data) {
@@ -503,9 +493,15 @@ document.querySelectorAll('.language-option').forEach(option => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+    // Thema toepassen
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+
+    // Taal en data
     const savedLang = localStorage.getItem('language') || 'nl';
     applyTranslations(savedLang);
-
     renderFavorites();
     renderFeedbackList();
 });
